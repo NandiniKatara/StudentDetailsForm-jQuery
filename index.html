@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- create a get button which when clicked with an input of roll no. shows students details (have students array list in variable) -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgb(105, 220, 37), rgb(233, 127, 127), lightblue, pink);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: 0;
+        }
+
+        form {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border-radius: 0.3rem;
+            border: solid black 1px;
+
+        }
+
+        button {
+            width: 50%;
+            padding: 10px;
+            background-color: #30015f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.3rem;
+        }
+
+        button:hover {
+            background-color: #ffde69;
+            color: black;
+
+        }
+
+        #myDetails {
+            display: none;
+            margin-top: 20px;
+        }
+
+        li {
+            margin: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="studentForm">
+
+        <h2 style="text-align: center; color: #30015f;">Student Details Form</h2>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="rollNo">Roll Number:</label>
+        <input type="text" id="rollNo" name="rollNo" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="hobbies">Hobbies (comma separated):</label>
+        <input type="text" id="hobbies" name="hobbies" required>
+
+        <button type="button" id="addDetailsBtn" class="button">Add Details</button>
+        <br />
+        <br />
+        <input type="text" id="roll" placeholder="Enter roll no. here">
+        <button id="getDetailsBtn" class="button">Get Details</button>
+        <div></div>
+        <ul class="retArray" id="detailsContent"></ul>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $("#addDetailsBtn").click(function () {
+                const firstName = $("#firstName").val();
+                const lastName = $("#lastName").val();
+                const age = $("#age").val();
+                const gender = $("#gender").val();
+                const rollNo = $("#rollNo").val();
+                const dob = $("#dob").val();
+                const hobbies = $("#hobbies").val();
+                if (firstName === "" || lastName === "" || age === "" || gender === "" || rollNo === "" || dob === "" || hobbies === "") {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+                alert("Data added successfully !!")
+                let personsArray = [];
+                if (localStorage.getItem("studentDatabase")) {
+                    personsArray = JSON.parse(localStorage.getItem("studentDatabase"));
+                }
+                let personDetails = { rollNo: rollNo, firstName: firstName, lastName: lastName, age: age, gender: gender, dob: dob, hobbies: hobbies };
+                personsArray.push(personDetails);
+                let detailString = JSON.stringify(personsArray);
+                localStorage.setItem("studentDatabase", detailString);
+            });
+
+            $("#getDetailsBtn").click(function (event) {
+                event.preventDefault();
+                const rollToSearch = $("#roll").val();
+                let personsArray = [];
+                if (localStorage.getItem("studentDatabase")) {
+                    personsArray = JSON.parse(localStorage.getItem("studentDatabase"));
+                }
+
+                const foundPerson = personsArray.find(person => person.rollNo == rollToSearch);
+                const detailsContent = $("#detailsContent");
+                if (foundPerson) {
+                    detailsContent.html(`
+                        <strong>Roll Number:</strong> ${foundPerson.rollNo}<br>
+                        <strong>First Name:</strong> ${foundPerson.firstName}<br>
+                        <strong>Last Name:</strong> ${foundPerson.lastName}<br>
+                        <strong>Age:</strong> ${foundPerson.age}<br>
+                        <strong>Gender:</strong> ${foundPerson.gender}<br>
+                        <strong>Date of Birth:</strong> ${foundPerson.dob}<br>
+                        <strong>Hoobies:</strong> ${foundPerson.hobbies}<br>
+                    `);
+                } else {
+                    detailsContent.html("Student not found with this Roll Number.");
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
