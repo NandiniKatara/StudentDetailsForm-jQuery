@@ -1,0 +1,103 @@
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgb(105, 220, 37), rgb(233, 127, 127), lightblue, pink);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+    /* background-repeat: no-repeat; */
+}
+
+form {
+    width: 50vw;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    align-items: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border-radius: 0.3rem;
+    border: solid black 1px;
+
+}
+
+button {
+    /* width: 30%; */
+    padding: 10px;
+    background-color: #30015f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.3rem;
+}
+
+button:hover {
+    background-color: #ffde69;
+    color: black;
+
+}
+
+#myDetails {
+    display: none;
+    margin-top: 20px;
+}
+
+.form_main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.button_container{
+    width: 100%;
+    text-align: center;
+}
+
+#roll{
+    margin-top: 1rem;
+}
+
+li {
+    margin: 2px;
+}
